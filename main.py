@@ -62,12 +62,12 @@ class Parser:
             self.take("|")
             left = ("or", left, self.conjunction())
         return left
-    # def conjunction(self):
-    #     left = self.unary()
-    #     while self.peek() == "&":
-    #         self.take("&")
-    #         left = ("and", left, self.unary())
-    #     return left
+    def conjunction(self):
+        left = self.unary()
+        while self.peek() == "&":
+            self.take("&")
+            left = ("and", left, self.unary())
+        return left
     # def unary(self):
     #     token = self.peek()
     #     if token == "!":
