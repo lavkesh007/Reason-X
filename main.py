@@ -119,71 +119,71 @@ def find_conflict_pairs(requirements):
             if not sat: found.append((pair[0], pair[1]))
     return found
 
-# def main():
-#     setup()
-#     st.set_page_config(page_title="REASON-X Basic", page_icon="🧠", layout="centered")
-#     st.title("🧠 REASON-X Basic")
-#     st.subheader("Software Requirement Conflict Detection")
-#     st.write("A simple knowledge-based system using propositional logic and truth-table reasoning.")
-#     tab1, tab2, tab3 = st.tabs(["Add Requirements", "Knowledge Base", "Check Conflicts"])
-#     with tab1:
-#         st.markdown("Operators: `!` NOT · `&` AND · `|` OR · `->` IMPLIES")
-#         with st.form("add", clear_on_submit=True):
-#             rid = st.text_input("Requirement ID", placeholder="R1")
-#             statement = st.text_area("Requirement in natural language")
-#             formula = st.text_input("Logical formula", placeholder="valid_credentials -> login_allowed")
-#             submitted = st.form_submit_button("Save Requirement")
-#             if submitted:
-#                 if not rid.strip() or not statement.strip() or not formula.strip():
-#                     st.error("Complete all fields.")
-#                 else:
-#                     try:
-#                         Parser(formula).parse()
-#                         save_requirement(rid.strip(), statement.strip(), formula.strip())
-#                         st.success("Requirement saved.")
-#                     except Exception as e:
-#                         st.error(f"Invalid formula: {e}")
-#         if st.button("Load Login Demonstration"):
-#             for item in [
-#                 ("R1", "Allow login when credentials are valid.", "V -> L"),
-#                 ("R2", "Deny login when credentials are invalid.", "!V -> !L"),
-#                 ("R3", "Allow login when credentials are invalid.", "!V -> L")
-#             ]: save_requirement(*item)
-#             st.success("Demo requirements loaded.")
-#     with tab2:
-#         rows = get_requirements()
-#         if rows:
-#             st.dataframe([{"ID":r[0],"Requirement":r[1],"Formula":r[2]} for r in rows],
-#                          use_container_width=True, hide_index=True)
-#             if st.button("Clear Knowledge Base"):
-#                 clear_requirements()
-#                 st.rerun()
-#         else: st.info("No requirements stored.")
-#     with tab3:
-#         rows = get_requirements()
-#         if st.button("Run Conflict Detection", type="primary"):
-#             if not rows: st.warning("Add requirements first.")
-#             else:
-#                 try:
-#                     sat, model = is_satisfiable(rows)
-#                     if sat:
-#                         st.success("SAT: All encoded requirements are consistent.")
-#                         st.write("Example satisfying assignment:")
-#                         st.json(model)
-#                     else:
-#                         st.error("UNSAT: The complete set contains a contradiction.")
-#                         pairs = find_conflict_pairs(rows)
-#                         if pairs:
-#                             st.subheader("Conflicting pairs")
-#                             for a,b in pairs:
-#                                 st.warning(f"{a[0]} conflicts with {b[0]}")
-#                                 st.write(f"- {a[1]} (`{a[2]}`)")
-#                                 st.write(f"- {b[1]} (`{b[2]}`)")
-#                         else:
-#                             st.info("Conflict involves three or more requirements; no pairwise conflict found.")
-#                 except Exception as e: st.error(str(e))
-#     st.divider()
-#     st.caption("Research prototype: results apply to formulas entered. Natural-language statements must be formalized and checked by the user.")
+def main():
+    setup()
+    st.set_page_config(page_title="REASON-X Basic", page_icon="🧠", layout="centered")
+    st.title("🧠 REASON-X Basic")
+    st.subheader("Software Requirement Conflict Detection")
+    st.write("A simple knowledge-based system using propositional logic and truth-table reasoning.")
+    tab1, tab2, tab3 = st.tabs(["Add Requirements", "Knowledge Base", "Check Conflicts"])
+    with tab1:
+        st.markdown("Operators: `!` NOT · `&` AND · `|` OR · `->` IMPLIES")
+        with st.form("add", clear_on_submit=True):
+            rid = st.text_input("Requirement ID", placeholder="R1")
+            statement = st.text_area("Requirement in natural language")
+            formula = st.text_input("Logical formula", placeholder="valid_credentials -> login_allowed")
+            submitted = st.form_submit_button("Save Requirement")
+            if submitted:
+                if not rid.strip() or not statement.strip() or not formula.strip():
+                    st.error("Complete all fields.")
+                else:
+                    try:
+                        Parser(formula).parse()
+                        save_requirement(rid.strip(), statement.strip(), formula.strip())
+                        st.success("Requirement saved.")
+                    except Exception as e:
+                        st.error(f"Invalid formula: {e}")
+        if st.button("Load Login Demonstration"):
+            for item in [
+                ("R1", "Allow login when credentials are valid.", "V -> L"),
+                ("R2", "Deny login when credentials are invalid.", "!V -> !L"),
+                ("R3", "Allow login when credentials are invalid.", "!V -> L")
+            ]: save_requirement(*item)
+            st.success("Demo requirements loaded.")
+    with tab2:
+        rows = get_requirements()
+        if rows:
+            st.dataframe([{"ID":r[0],"Requirement":r[1],"Formula":r[2]} for r in rows],
+                         use_container_width=True, hide_index=True)
+            if st.button("Clear Knowledge Base"):
+                clear_requirements()
+                st.rerun()
+        else: st.info("No requirements stored.")
+    with tab3:
+        rows = get_requirements()
+        if st.button("Run Conflict Detection", type="primary"):
+            if not rows: st.warning("Add requirements first.")
+            else:
+                try:
+                    sat, model = is_satisfiable(rows)
+                    if sat:
+                        st.success("SAT: All encoded requirements are consistent.")
+                        st.write("Example satisfying assignment:")
+                        st.json(model)
+                    else:
+                        st.error("UNSAT: The complete set contains a contradiction.")
+                        pairs = find_conflict_pairs(rows)
+                        if pairs:
+                            st.subheader("Conflicting pairs")
+                            for a,b in pairs:
+                                st.warning(f"{a[0]} conflicts with {b[0]}")
+                                st.write(f"- {a[1]} (`{a[2]}`)")
+                                st.write(f"- {b[1]} (`{b[2]}`)")
+                        else:
+                            st.info("Conflict involves three or more requirements; no pairwise conflict found.")
+                except Exception as e: st.error(str(e))
+    st.divider()
+    st.caption("Research prototype: results apply to formulas entered. Natural-language statements must be formalized and checked by the user.")
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
