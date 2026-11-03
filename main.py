@@ -68,19 +68,19 @@ class Parser:
             self.take("&")
             left = ("and", left, self.unary())
         return left
-    # def unary(self):
-    #     token = self.peek()
-    #     if token == "!":
-    #         self.take("!")
-    #         return ("not", self.unary())
-    #     if token == "(":
-    #         self.take("(")
-    #         node = self.implication()
-    #         self.take(")")
-    #         return node
-    #     if token and re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", token):
-    #         return ("atom", self.take())
-    #     raise ValueError(f"Expected proposition or '(', found {token}")
+    def unary(self):
+        token = self.peek()
+        if token == "!":
+            self.take("!")
+            return ("not", self.unary())
+        if token == "(":
+            self.take("(")
+            node = self.implication()
+            self.take(")")
+            return node
+        if token and re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", token):
+            return ("atom", self.take())
+        raise ValueError(f"Expected proposition or '(', found {token}")
 
 def evaluate(node, values):
     kind = node[0]
