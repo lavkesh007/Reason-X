@@ -45,29 +45,29 @@ class Parser:
             raise ValueError(f"Expected {expected or 'token'}, found {token}")
         self.pos += 1
         return token
-    def parse(self):
-        if not self.tokens: raise ValueError("Formula cannot be empty.")
-        result = self.implication()
-        if self.peek() is not None: raise ValueError(f"Unexpected token: {self.peek()}")
-        return result
-    def implication(self):
-        left = self.disjunction()
-        if self.peek() == "->":
-            self.take("->")
-            return ("implies", left, self.implication())
-        return left
-    def disjunction(self):
-        left = self.conjunction()
-        while self.peek() == "|":
-            self.take("|")
-            left = ("or", left, self.conjunction())
-        return left
-    def conjunction(self):
-        left = self.unary()
-        while self.peek() == "&":
-            self.take("&")
-            left = ("and", left, self.unary())
-        return left
+    # def parse(self):
+    #     if not self.tokens: raise ValueError("Formula cannot be empty.")
+    #     result = self.implication()
+    #     if self.peek() is not None: raise ValueError(f"Unexpected token: {self.peek()}")
+    #     return result
+    # def implication(self):
+    #     left = self.disjunction()
+    #     if self.peek() == "->":
+    #         self.take("->")
+    #         return ("implies", left, self.implication())
+    #     return left
+    # def disjunction(self):
+    #     left = self.conjunction()
+    #     while self.peek() == "|":
+    #         self.take("|")
+    #         left = ("or", left, self.conjunction())
+    #     return left
+    # def conjunction(self):
+    #     left = self.unary()
+    #     while self.peek() == "&":
+    #         self.take("&")
+    #         left = ("and", left, self.unary())
+    #     return left
     # def unary(self):
     #     token = self.peek()
     #     if token == "!":
